@@ -109,8 +109,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
     fun startact(context: Context,name:String){
-//        val intent = Intent(context, LandingPage::class.java)
-//        intent.putExtra("username",name)
-//        startActivity(intent)
+        val intent = Intent(context, LandingPage::class.java)
+        intent.putExtra("username",name)
+        startActivity(intent)
     }
 }
