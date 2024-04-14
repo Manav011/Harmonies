@@ -46,7 +46,10 @@ class MainActivity : AppCompatActivity() {
                 val pin = pinEditText.text.toString()
                 val confirmPin = confirmPinEditText.text.toString()
 
-                if (pin == confirmPin) {
+                if(username.equals("") && pin.equals("") && confirmPin.equals("")) {
+                    Toast.makeText(this@MainActivity, "Fields are empty", Toast.LENGTH_SHORT)
+                }
+                else if (pin == confirmPin) {
                     // Save username and PIN to SharedPreferences
                     sharedPreferences.edit().apply {
                         putString("Username", username)
@@ -55,16 +58,16 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     Toast.makeText(
-                        this,
+                        this@MainActivity,
                         "Username and PIN saved",
                         Toast.LENGTH_SHORT
                     ).show()
-                    startact(this,username)
+                    startact(this@MainActivity,username)
 
                     finish()
                 } else {
                     Toast.makeText(
-                        this,
+                        this@MainActivity,
                         "PINs do not match",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -88,18 +91,18 @@ class MainActivity : AppCompatActivity() {
 
                 if (enteredPin == savedPin) {
                     // Correct PIN entered, proceed to landing page
-                    startact(this,savedUsername)
+                    startact(this@MainActivity,savedUsername)
                     finish()
                 } else {
                     if(enteredPin.equals("")){
                         Toast.makeText(
-                            this,
+                            this@MainActivity,
                             "PIN Field Empty",
                             Toast.LENGTH_SHORT
                         ).show()
                     }else{
                         Toast.makeText(
-                            this,
+                            this@MainActivity,
                             "Incorrect PIN",
                             Toast.LENGTH_SHORT
                         ).show()
