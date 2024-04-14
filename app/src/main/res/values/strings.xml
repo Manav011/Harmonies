@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">MusicApp</string>
+    <string name="enterusername">Enter Username</string>
+    <string name="enterpin">Enter PIN</string>
+    <string name="confirmpin">Confirm PIN</string>
+    <string name="savebtn">Save</string>
+    <string name="userwelcome">Welcome User</string>
 </resources>
