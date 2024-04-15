@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         app:tabSelectedTextColor="@color/colorPrimary"
         app:tabTextColor="@color/colorPrimaryDark"
-        android:background="@color/colorAccent"
+        android:background="@color/black90"
         android:minHeight="?attr/actionBarSize"
         app:tabIndicator="@drawable/tab_indicator"/>
 

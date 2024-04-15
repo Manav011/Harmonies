@@ -8,8 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.musicapp.ApiInterface
+import com.example.musicapp.MyAdapter
 import com.example.musicapp.R
 import com.example.musicapp.Search.MyData
 import retrofit2.Call
@@ -32,6 +36,8 @@ class ListFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    lateinit var myrecyclerview: RecyclerView
+    lateinit var myAdapter: MyAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,31 +55,31 @@ class ListFragment : Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_list, container, false)
         val searchfield : EditText = view.findViewById(R.id.searchinput)
 
+        myrecyclerview = view.findViewById(R.id.recyclerview)
         val retrofitBuilder = Retrofit.Builder()
             .baseUrl("https://deezerdevs-deezer.p.rapidapi.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiInterface::class.java)
 
-//        var retrofitData = retrofitBuilder.getSearchData("ed sheeran")
-        view.findViewById<Button>(R.id.tempbtn).setOnClickListener {
-            view.findViewById<TextView>(R.id.textview1).text = searchfield.text
-        }
+        searchfield.setOnClickListener{
+            var retrofitData = retrofitBuilder.getSearchData(searchfield.text.toString())
+            retrofitData?.enqueue(object : Callback<MyData?> {
+                override fun onResponse(call: Call<MyData?>, response: Response<MyData?>) {
+                    val dataList = response.body()?.data!!
+                    myAdapter = MyAdapter(requireActivity(), dataList)
+                    myrecyclerview.adapter = myAdapter
+                    myrecyclerview.layoutManager = LinearLayoutManager(requireContext())
+                    Log.d("Tag: onResponse", "onResponse: " + response.body())
 
-//        retrofitData?.enqueue(object : Callback<MyData?> {
-//            override fun onResponse(call: Call<MyData?>, response: Response<MyData?>) {
-//                val dataList = response.body()
-//                val textview = view.findViewById<TextView>(R.id.textview1)
-//                textview.text = dataList.toString()
-//                Log.d("Tag: onResponse", "onResponse: " + response.body())
-//
-//            }
-//
-//            override fun onFailure(call: Call<MyData?>, t: Throwable) {
-//                Log.d("Tag: onFailure", "onFailure: " + t.message)
-//
-//            }
-//        })
+                }
+
+                override fun onFailure(call: Call<MyData?>, t: Throwable) {
+                    Log.d("Tag: onFailure", "onFailure: " + t.message)
+
+                }
+            })
+        }
 
         return view
     }
