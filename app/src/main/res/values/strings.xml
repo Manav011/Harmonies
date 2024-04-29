@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MusicApp</string>
+    <string name="app_name">Harmonies</string>
     <string name="enterusername">Enter Username</string>
     <string name="enterpin">Enter PIN</string>
     <string name="confirmpin">Confirm PIN</string>

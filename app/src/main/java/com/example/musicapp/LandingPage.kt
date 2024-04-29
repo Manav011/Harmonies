@@ -2,6 +2,7 @@ package com.example.musicapp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.example.musicapp.Search.Data
 import com.example.musicapp.fragments.ListFragment
@@ -24,6 +25,11 @@ class LandingPage : AppCompatActivity() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             // Set tab text or icon here if needed
             tab.text = if (position == 0) "Search" else "Details"
+            tab.icon = if (position == 0){
+                ContextCompat.getDrawable(this@LandingPage, R.drawable.search)
+            }else{
+                ContextCompat.getDrawable(this@LandingPage, R.drawable.details)
+            }
         }.attach()
 
     }
