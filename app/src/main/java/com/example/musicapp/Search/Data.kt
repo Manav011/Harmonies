@@ -1,5 +1,7 @@
 package com.example.musicapp.Search
 
+import java.io.Serializable
+
 data class Data(
     val album: Album,
     val artist: Artist,
@@ -17,4 +19,4 @@ data class Data(
     val title_short: String,
     val title_version: String,
     val type: String
-)
+) : Serializable

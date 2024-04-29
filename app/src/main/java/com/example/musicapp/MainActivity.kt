@@ -13,14 +13,6 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 
-
-//class MainActivity : AppCompatActivity() {
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_main)
-//    }
-//}
-
 class MainActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var pinEditText: EditText

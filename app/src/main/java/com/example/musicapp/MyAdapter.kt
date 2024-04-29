@@ -18,6 +18,7 @@ import com.squareup.picasso.Picasso
 class MyAdapter(val context: Activity, val dataList: List<Data>):
     RecyclerView.Adapter<MyAdapter.MyViewHolder>(){
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         // create the view in case the layout manager fails to create the view for the data
         val itemView = LayoutInflater.from(context).inflate(R.layout.item, parent, false)
@@ -36,7 +37,8 @@ class MyAdapter(val context: Activity, val dataList: List<Data>):
         val seconds = if (currentData.duration % 60 >= 10) currentData.duration % 60 else "0${currentData.duration % 60}"
         holder.duration.text = "${minutes}:${seconds}"
         Picasso.get().load(currentData.album.cover).into(holder.image);
-        holder.play.setOnClickListener { mediaPlayer.start() }
+        holder.play.setOnClickListener {
+            mediaPlayer.start() }
         holder.pause.setOnClickListener { mediaPlayer.stop() }
     }
 

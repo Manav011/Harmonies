@@ -3,6 +3,7 @@ package com.example.musicapp
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import com.example.musicapp.Search.Data
 import com.example.musicapp.fragments.ListFragment
 import com.example.musicapp.fragments.DetailsFragment
 import com.example.musicapp.fragments.ViewPagerAdapter

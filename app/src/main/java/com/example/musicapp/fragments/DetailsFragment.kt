@@ -5,7 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import com.example.musicapp.R
+import com.example.musicapp.Search.Data
+import com.squareup.picasso.Picasso
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,7 +39,12 @@ class DetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_details, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_details, container, false)
+//        albumImage = view.findViewById(R.id.album)
+//        al.background = context?.let { ContextCompat.getDrawable(it, R.drawable.imagebackground) }
+//        Picasso.get().load(currentData.album.cover).into(holder.image);
+//        dataList = arguments?.
+        return view
     }
 
     companion object {
