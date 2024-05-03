@@ -16,7 +16,7 @@
             android:layout_width="333dp"
             android:layout_height="333dp"
             android:layout_marginTop="50dp"
-            android:background="@drawable/imagebackground"
+            android:src="@mipmap/detailimage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -60,7 +60,7 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="36dp"
+            android:layout_marginStart="52dp"
             android:layout_marginTop="36dp"
             android:text="@string/Deezer_Rank"
             android:textSize="25sp"
@@ -74,7 +74,7 @@
             android:text="@string/Time"
             android:textSize="25sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.811"
+            app:layout_constraintHorizontal_bias="0.745"
             app:layout_constraintStart_toEndOf="@+id/textView2"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 

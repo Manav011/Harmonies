@@ -12,11 +12,11 @@
     <string name="next">Next</string>
     <string name="login">Login</string>
     <string name="previous">Previous</string>
-    <string name="Song_Name">Song Name</string>
-    <string name="Album_Name">Album Name</string>
-    <string name="Artist_Name">Artist Name</string>
-    <string name="Time">Time</string>
-    <string name="Deezer_Rank">Deezer Rank</string>
+    <string name="Song_Name">Perfect</string>
+    <string name="Album_Name">Divide</string>
+    <string name="Artist_Name">Ed Sheeran</string>
+    <string name="Time">4:23</string>
+    <string name="Deezer_Rank">Deezer rank \n\t34</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
