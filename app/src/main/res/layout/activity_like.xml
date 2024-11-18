@@ -5,7 +5,19 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".likedsongs.LikeActivity">
+    tools:context=".likedsongs.LikeActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Favourites"
+        android:textStyle="bold"
+        android:textSize="40dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:textColor="@color/colorPrimary"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/likelist"

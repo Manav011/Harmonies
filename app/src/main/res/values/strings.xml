@@ -4,7 +4,7 @@
     <string name="enterpin">Enter PIN</string>
     <string name="confirmpin">Confirm PIN</string>
     <string name="savebtn">Save</string>
-    <string name="userwelcome">Welcome User</string>
+    <string name="userwelcome">Welcome</string>
     <string name="search">Search</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

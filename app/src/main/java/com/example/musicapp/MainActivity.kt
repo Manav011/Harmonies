@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         usernameTextView = findViewById(R.id.usernameTextView)
         val enterPinButton = findViewById<Button>(R.id.enterPinButton)
 
-        usernameTextView.text = "Welcome, ${user?.username}"
+        usernameTextView.text = "${user?.username}"
 
         enterPinButton.setOnClickListener {
             val enteredPin = pinEditText.text.toString()
