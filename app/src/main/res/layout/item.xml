@@ -10,8 +10,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardCornerRadius="15dp"
-        android:layout_marginTop="4dp"
+        app:cardCornerRadius="5dp"
+        android:layout_marginTop="5dp"
         app:cardBackgroundColor="@color/colorAccent"
         >
 
@@ -31,39 +31,53 @@
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_marginStart="3dp"
-                android:layout_marginEnd="10dp">
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="20dp"
+                android:textAlignment="center">
 
                 <TextView
                     android:id="@+id/musictitle"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TextView" />
+                    android:layout_height="30dp"
+                    android:text="TextView"
+                    android:layout_marginTop="5dp"
+                    android:textSize="20dp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/duration"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="5dp"
                     android:layout_weight="1"
-                    android:text="TextView" />
+                    android:text="TextView"/>
 
             </LinearLayout>
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/btnPlay"
-                android:layout_width="5dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@android:drawable/ic_media_play" />
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/play"
+                />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/btnPause"
-                android:layout_width="5dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="1"
-                app:srcCompat="@android:drawable/ic_media_pause" />
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/pause"
+                />
+
+            <ImageView
+                android:id="@+id/btnLike"
+                android:layout_width="45dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="25dp"
+                android:src="@drawable/baseline_thumb_up_off_alt_24"
+                />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

@@ -1,111 +1,114 @@
 package com.example.musicapp
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.example.musicapp.roomdb.AppDatabase
+import com.example.musicapp.roomdb.User
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var sharedPreferences: SharedPreferences
+
+    private lateinit var appDatabase: AppDatabase
     private lateinit var pinEditText: EditText
     private lateinit var usernameTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val savedPin = sharedPreferences.getString("PIN", "")
+        appDatabase = AppDatabase.getDatabase(this)
 
-        if (savedPin.isNullOrEmpty()) {
-            // PIN not set, navigate to set login data activity
-            setContentView(R.layout.signup)
-
-            val usernameEditText = findViewById<EditText>(R.id.usernameEditText)
-            pinEditText = findViewById(R.id.pinEditText)
-            val confirmPinEditText = findViewById<EditText>(R.id.confirmPinEditText)
-            val saveButton = findViewById<Button>(R.id.saveButton)
-
-            saveButton.setOnClickListener {
-                val username = usernameEditText.text.toString()
-                val pin = pinEditText.text.toString()
-                val confirmPin = confirmPinEditText.text.toString()
-
-                if(username.equals("") && pin.equals("") && confirmPin.equals("")) {
-                    Toast.makeText(this@MainActivity, "Fields are empty", Toast.LENGTH_SHORT)
-                }
-                else if (pin == confirmPin) {
-                    // Save username and PIN to SharedPreferences
-                    sharedPreferences.edit().apply {
-                        putString("Username", username)
-                        putString("PIN", pin)
-                        apply()
-                    }
-
-                    Toast.makeText(
-                        this@MainActivity,
-                        "Username and PIN saved",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    startact(this@MainActivity,username)
-
-                    finish()
-                } else {
-                    Toast.makeText(
-                        this@MainActivity,
-                        "PINs do not match",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+        lifecycleScope.launch {
+            if (!appDatabase.userDao().isUserExists()) {
+                showSignupScreen()
+            } else {
+                val user = getUserFromDatabase()
+                showLoginScreen(user)
             }
-        } else {
-            // PIN already set, show login activity
-            setContentView(R.layout.login)
+        }
+    }
 
-            pinEditText = findViewById(R.id.pinEditText)
-            usernameTextView = findViewById(R.id.usernameTextView)
-            val enterPinButton = findViewById<Button>(R.id.enterPinButton)
+    private suspend fun getUserFromDatabase(): User? {
+        return withContext(Dispatchers.IO) {
+            val userDao = appDatabase.userDao()
+            userDao.getUserById()
+        }
+    }
 
-            // Set the username to the TextView
-            val savedUsername = sharedPreferences.getString("Username", "") ?: ""
-            usernameTextView.text = "Welcome, $savedUsername"
+    private fun showSignupScreen() {
+        setContentView(R.layout.signup)
 
-            enterPinButton.setOnClickListener {
-                val enteredPin = pinEditText.text.toString()
-                val savedPin = sharedPreferences.getString("PIN", "")
+        val usernameEditText = findViewById<EditText>(R.id.usernameEditText)
+        pinEditText = findViewById(R.id.pinEditText)
+        val confirmPinEditText = findViewById<EditText>(R.id.confirmPinEditText)
+        val saveButton = findViewById<Button>(R.id.saveButton)
 
-                if (enteredPin == savedPin) {
-                    // Correct PIN entered, proceed to landing page
-                    startact(this@MainActivity,savedUsername)
+        saveButton.setOnClickListener {
+            val username = usernameEditText.text.toString()
+            val pin = pinEditText.text.toString()
+            val confirmPin = confirmPinEditText.text.toString()
+
+            if (username.isEmpty() || pin.isEmpty() || confirmPin.isEmpty()) {
+                Toast.makeText(this@MainActivity, "Fields are empty", Toast.LENGTH_SHORT).show()
+            } else if (pin == confirmPin) {
+                // Save user to the database in the background
+                lifecycleScope.launch {
+                    val user = User(username = username, pin = pin)
+                    saveUserToDatabase(user)
+
+                    Toast.makeText(this@MainActivity, "Username and PIN saved", Toast.LENGTH_SHORT).show()
+                    startAct(username)
                     finish()
+                }
+            } else {
+                Toast.makeText(this@MainActivity, "PINs do not match", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun showLoginScreen(user: User?) {
+        setContentView(R.layout.login)
+
+        pinEditText = findViewById(R.id.pinEditText)
+        usernameTextView = findViewById(R.id.usernameTextView)
+        val enterPinButton = findViewById<Button>(R.id.enterPinButton)
+
+        usernameTextView.text = "Welcome, ${user?.username}"
+
+        enterPinButton.setOnClickListener {
+            val enteredPin = pinEditText.text.toString()
+
+            if (enteredPin == user?.pin) {
+                // Correct PIN, proceed to the landing page
+                startAct(user.username)
+                finish()
+            } else {
+                if (enteredPin.isEmpty()) {
+                    Toast.makeText(this@MainActivity, "PIN Field Empty", Toast.LENGTH_SHORT).show()
                 } else {
-                    if(enteredPin.equals("")){
-                        Toast.makeText(
-                            this@MainActivity,
-                            "PIN Field Empty",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }else{
-                        Toast.makeText(
-                            this@MainActivity,
-                            "Incorrect PIN",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                    Toast.makeText(this@MainActivity, "Incorrect PIN", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
-    fun startact(context: Context,name:String){
-        val intent = Intent(context, LandingPage::class.java)
-        intent.putExtra("username",name)
+
+    private suspend fun saveUserToDatabase(user: User) {
+        withContext(Dispatchers.IO) {
+            val userDao = appDatabase.userDao()
+            userDao.insert(user)
+        }
+    }
+
+    private fun startAct(username: String) {
+        val intent = Intent(this, LandingPage::class.java)
+        intent.putExtra("username", username)
         startActivity(intent)
     }
 }

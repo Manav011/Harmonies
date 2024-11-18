@@ -9,10 +9,12 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musicapp.Search.Data
 import com.example.musicapp.Search.MyData
+import com.example.musicapp.sqllitedb.DBHelper
 import com.squareup.picasso.Picasso
 
 class MyAdapter(val context: Activity, val dataList: List<Data>):
@@ -37,16 +39,38 @@ class MyAdapter(val context: Activity, val dataList: List<Data>):
         val seconds = if (currentData.duration % 60 >= 10) currentData.duration % 60 else "0${currentData.duration % 60}"
         holder.duration.text = "${minutes}:${seconds}"
         Picasso.get().load(currentData.album.cover).into(holder.image);
+
         holder.play.setOnClickListener {
-            mediaPlayer.start() }
-        holder.pause.setOnClickListener { mediaPlayer.stop() }
+            mediaPlayer.start()
+        }
+
+        holder.pause.setOnClickListener {
+            mediaPlayer.stop()
+        }
+
+        holder.like.setOnClickListener{
+            val dbHelper = DBHelper(context)
+
+            val isAdded = dbHelper.addFavoriteSong(
+                currentData.title,
+                currentData.duration,
+                currentData.album.cover
+            )
+
+            if(isAdded){
+                Toast.makeText(context, "Added to Favorites", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(context, "Already in Favorites", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val image: ImageView
         val title: TextView
-        val play: ImageButton
-        val pause: ImageButton
+        val play: ImageView
+        val pause: ImageView
+        val like: ImageView
         val duration: TextView
 
         init {
@@ -54,6 +78,7 @@ class MyAdapter(val context: Activity, val dataList: List<Data>):
             title = itemView.findViewById(R.id.musictitle)
             play = itemView.findViewById(R.id.btnPlay)
             pause = itemView.findViewById(R.id.btnPause)
+            like = itemView.findViewById(R.id.btnLike)
             duration = itemView.findViewById(R.id.duration)
         }
     }
