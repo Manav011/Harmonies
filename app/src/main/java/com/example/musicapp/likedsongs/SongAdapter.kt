@@ -31,6 +31,7 @@ class SongAdapter(
         val songImage: ImageView = view.findViewById(R.id.likeitemimage)
         val songTitle: TextView = view.findViewById(R.id.likeitemname)
         val songDuration: TextView = view.findViewById(R.id.likeitemtime)
+        val songDate: TextView = view.findViewById(R.id.likeitemdate)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
@@ -47,6 +48,8 @@ class SongAdapter(
         val minutes = song.duration / 60
         val seconds = if (song.duration % 60 >= 10) song.duration % 60 else "0${song.duration % 60}"
         holder.songDuration.text = "$minutes:$seconds"
+
+        holder.songDate.text = "Liked on: ${song.likedDate}"
 
         holder.itemView.setOnClickListener {
             removeSong(position)

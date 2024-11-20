@@ -19,7 +19,7 @@ class LikeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_like)
 
         likelist = findViewById(R.id.likelist)
-        dbHelper = DBHelper(this)
+        dbHelper = DBHelper(this@LikeActivity)
 
         // Set the layout manager to display items in a grid
         likelist.layoutManager = GridLayoutManager(this, 2)
@@ -29,10 +29,10 @@ class LikeActivity : AppCompatActivity() {
 
         if (likedSongs.isEmpty()) {
             // Show a toast if no liked songs are found
-            Toast.makeText(this, "There are no liked songs", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@LikeActivity, "There are no liked songs", Toast.LENGTH_SHORT).show()
         } else {
             // Create the custom adapter to bind the data to the RecyclerView
-            songAdapter = SongAdapter(this, likedSongs, dbHelper)
+            songAdapter = SongAdapter(this@LikeActivity, likedSongs, dbHelper)
             likelist.adapter = songAdapter
         }
     }
